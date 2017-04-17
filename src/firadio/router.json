@@ -1,0 +1,23 @@
+[
+  "Home#/",
+  "UserCenter#/user",
+  "UserSign#/user/sign",
+  "UserProfile#/user/profile",
+  "UserQq#/user/qq",
+  "UserQqAdd#/user/qq/add",
+  "UserQqInfo#/user/qq/:id",
+  "Console#/console",
+  "ConsoleNtUser#/console/ntuser",
+  "ConsoleNtUserReg#/console/ntuser/reg",
+  "ConsoleNtUserInfo#/console/ntuser/:id",
+  "ConsoleDomain#/console/domain",
+  "ConsoleDomainAdd#/console/domain/add",
+  "ConsoleDomainInfo#/console/domain/:id",
+  "ConsoleDomainSub#/console/domain/:domain_id/sub",
+  "ConsoleDomainSubAdd#/console/domain/:domain_id/sub/add",
+  "ConsoleDomainSubInfo#/console/domain/:domain_id/sub/:id",
+  "Diantai#/diantai",
+  "DiantaiSite#/diantai/site",
+  "DiantaiChannel#/diantai/channel",
+  "DiantaiProgram#/diantai/program"
+]

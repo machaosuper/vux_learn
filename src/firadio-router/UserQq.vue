@@ -1,0 +1,81 @@
+<template>
+  <div>
+    <msg v-if="apiInited&&!isLogin" :title="$t('YouAreNotLogin')" description="" :buttons="buttons" :icon="icon"></msg>
+    <group v-if="isLogin">
+      <cell v-if="rows.length===0" align="center" title="您尚未添加QQ号码"></cell>
+      <cell v-for="row of rows" :key="row.id" :title="row.text" :link="row.link" :value="$t('Detail')">
+      </cell>
+    </group>
+    <box gap="10px 10px">
+      <x-button @click.native="add" type="primary">添加QQ号码</x-button>
+    </box>
+    <box gap="10px 10px" align="center">
+      为确保账户安全，建议多添加几个QQ号码。
+    </box>
+  </div>
+</template>
+
+<i18n>
+Detail:
+  en: Detail
+  zh-CN: 详情
+Entry:
+  en: Entry
+  zh-CN: 进入
+ShowRecord:
+  en: Show Record
+  zh-CN: 查看记录
+MyWindowsUser:
+  en: My Windows User
+  zh-CN: 我的Windows账号
+BackHome:
+  en: Back Home
+  zh-CN: 返回主页
+YouAreNotLogin:
+  en: You Are Not Login.
+  zh-CN: 您当前尚未登录
+GotoLoginPage:
+  en: Goto Login Page
+  zh-CN: 进入登录页面
+</i18n>
+
+<script>
+import { Box, Msg, XButton, Cell, Group } from 'vux'
+import { mapGetters } from 'vuex'
+
+export default {
+  components: {Box, Msg, XButton, Cell, Group},
+  created () {
+    let that = this
+    window.api.post('/panel/user/qq/list.php', {}, function (data) {
+      that.rows = data.rows
+      for (var key in that.rows) {
+        var row = that.rows[key]
+        row.text = row.qquin
+        if (row.hasOwnProperty('nickname') && row.nickname !== null) {
+          row.text += '(' + row.nickname + ')'
+        }
+        if (row.hasOwnProperty('verified') && row.verified !== null) {
+          row.text += ' 已验证'
+        } else {
+          row.text += ' 未验证'
+        }
+        row.link = '/user/qq/' + row.id
+      }
+    })
+  },
+  computed: mapGetters(['apiInited', 'isLogin', 'nickname']),
+  data () {
+    return {
+      icon: 'warn',
+      buttons: [{type: 'primary', text: 'GotoLoginPage', link: '/user/sign'}, {type: 'default', text: 'BackHome', link: '/'}],
+      rows: []
+    }
+  },
+  methods: {
+    add () {
+      this.$router.replace('/user/qq/add')
+    }
+  }
+}
+</script>
